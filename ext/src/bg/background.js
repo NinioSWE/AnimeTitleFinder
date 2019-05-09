@@ -30,15 +30,17 @@ function search(){
 	var jqxhr = $.getJSON( "https://kitsu.io/api/edge/anime?filter[text]=" + text+"&fields[anime]=titles")
 	  .done(function() {
 	    jqxhr.responseJSON.data.forEach(function(element) {
-	  	$(".result").append("<p>EN:" + element.attributes.titles.en +"</p>");
-	  	$(".result").append("<p>JP:" + element.attributes.titles.en_jp +"</p><br>");
+    	if(element.attributes.titles.en != null){
+    		$(".result").append("<p>EN:" + element.attributes.titles.en +"</p>");
+    	}
+    	if(element.attributes.titles.en_jp != null){
+		  	$(".result").append("<p>JP:" + element.attributes.titles.en_jp +"</p>");
+		}
+		$(".result").append("<br>");
 	  });
-	    console.log( "success" );
 	  })
 	  .fail(function() {
-	    console.log( "error" );
 	  })
 	  .always(function() {
-	    console.log( "complete" );
 	  });
 }
