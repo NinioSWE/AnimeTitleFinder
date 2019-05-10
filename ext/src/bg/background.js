@@ -27,15 +27,24 @@ $( document ).ready(function() {
 function search(){
 	$(".result").html("");
 	var text = $("#inputText").val();
-	var jqxhr = $.getJSON( "https://kitsu.io/api/edge/anime?filter[text]=" + text+"&fields[anime]=titles")
+	var jqxhr = $.getJSON( "https://kitsu.io/api/edge/anime?filter[text]=" + text+"&fields[anime]=titles,posterImage")
 	  .done(function() {
 	    jqxhr.responseJSON.data.forEach(function(element) {
+	    var stringQuery = "";
+	    stringQuery += "<div>";
     	if(element.attributes.titles.en != null){
-    		$(".result").append("<p>EN:" + element.attributes.titles.en +"</p>");
+    		stringQuery += "<p>EN:" + element.attributes.titles.en +"</p>";
     	}
     	if(element.attributes.titles.en_jp != null){
-		  	$(".result").append("<p>JP:" + element.attributes.titles.en_jp +"</p>");
+		  	stringQuery += "<p>JP:" + element.attributes.titles.en_jp +"</p>";
 		}
+		stringQuery += "</div>";
+		stringQuery += "<div>";
+	    if(element.attributes.posterImage.tiny != null){
+			stringQuery += "<img src='" + element.attributes.posterImage.tiny +"'>";
+	    }
+	    stringQuery += "</div>";
+		$(".result").append(stringQuery);
 		$(".result").append("<br>");
 	  });
 	  })
